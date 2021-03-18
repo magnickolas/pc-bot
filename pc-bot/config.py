@@ -13,3 +13,4 @@ def get_or_throw(name):
 BOT_TOKEN = get_or_throw("BOT_TOKEN")
 TG_ID = get_or_throw("TG_ID")
 MAC = get_or_throw("MAC")
+SSH_INSTANCE = get_or_throw("SSH_INSTANCE")
