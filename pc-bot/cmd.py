@@ -3,6 +3,7 @@ from pathlib import Path
 from subprocess import run
 
 from loguru import logger
+from paramiko import AutoAddPolicy
 from paramiko.client import SSHClient
 from paramiko.config import SSHConfig
 
@@ -29,6 +30,7 @@ def power_off() -> str:
         cfg = SSHConfig.from_path(Path.home() / ".ssh" / "config")\
                        .lookup(SSH_INSTANCE)
         ssh = SSHClient()
+        ssh.set_missing_host_key_policy(AutoAddPolicy())
         ssh.connect(**{
             "hostname":     cfg.get("hostname"),
             "port":         cfg.get("port") or 22,
