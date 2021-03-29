@@ -5,10 +5,18 @@ Telegram bot that lets you remotely turn on/off your PC from another hosted devi
 ## Prerequisites
 
 - Configure Wake-on-LAN on PC that you want to turn on/off
-- Add the following line `/etc/sudoers` to let the bot turn off PC without sudo password:
-    ```
-    <username> ALL=(ALL) NOPASSWD:/sbin/poweroff
-    ```
+- Powering off *nix:
+    - Add the following line `/etc/sudoers` to let the bot turn off PC without sudo password:
+        ```
+        <username> ALL=(ALL) NOPASSWD:/sbin/poweroff
+        ```
+- Powering off Windows:
+    - Execute the following commands with administrator's privileges:
+        ```
+        sc config RemoteRegistry start= auto
+        sc start RemoteRegistry
+        reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f
+        ```
 - Install `wakeonlan` on the host, check out if it works with PC's mac address
 
 ## Install
@@ -23,7 +31,12 @@ python3 setup.py install --user
 export BOT_TOKEN=<token from @BotFather>
 export TG_ID=<your telegram id (to prevent someone controlling your PC)>
 export MAC=<mac address of PC>
-export SSH_INSTANCE=<instance name from ssh config file>
+# Variables to turn off with SSH
+export SSH_INSTANCE=<instance name from ssh config file> # optional
+# Variables to turn off Windows with RPC
+export RPC_SERVER=<target IP>                            # optional
+export RPC_USER=<Windows login>                          # optional
+export RPC_PASSWORD=<Windows password>                   # optional
 python3 -m pc-bot
 ```
 
@@ -53,7 +66,10 @@ StartLimitBurst=10
 Environment="BOT_TOKEN=<token from @BotFather>"
 Environment="TG_ID=<your telegram id (to prevent someone controlling your PC)>"
 Environment="MAC=<mac address of PC>"
-Environment="SSH_INSTANCE=<instance name from ssh config file>"
+Environment="SSH_INSTANCE=<instance name from ssh config file>" # optional
+Environment="RPC_SERVER=<target IP>"                            # optional
+Environment="RPC_USER=<Windows login>"                          # optional
+Environment="RPC_PASSWORD=<Windows password>"                   # optional
 
 [Install]
 WantedBy=default.target
