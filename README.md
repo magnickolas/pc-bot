@@ -11,7 +11,8 @@ Telegram bot that lets you remotely turn on/off your PC from another hosted devi
         <username> ALL=(ALL) NOPASSWD:/sbin/poweroff
         ```
 - Powering off Windows:
-    - Execute the following commands with administrator's privileges:
+    - Install samba package on the host.
+    - Execute the following commands with administrator's privileges on the target:
         ```
         sc config RemoteRegistry start= auto
         sc start RemoteRegistry
