@@ -43,10 +43,11 @@ python3 -m pc-bot
 
 ### Features
 
-| Command | Action    |
-|:-------:| --------- |
-|   /on   | Power on  |
-|  /off   | Power off |
+| Command   | Action                                                                   |
+| :-------: | ------------------------------------------------------------------------ |
+| /on       | Power on                                                                 |
+| /off      | Power off                                                                |
+| /ip       | Get target's IP address (actually host's, but assuming they're the same) |
 
 
 

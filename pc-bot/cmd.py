@@ -1,6 +1,8 @@
 from functools import wraps
 from pathlib import Path
 from subprocess import CalledProcessError, check_call, DEVNULL
+from urllib.request import urlopen
+
 
 from loguru import logger
 from paramiko import AutoAddPolicy
@@ -39,6 +41,15 @@ def power_off() -> str:
     except Exception:
         logger.exception("Failed to turn off")
         return "Failed to turn off..."
+
+@authcmd
+def global_ip() -> str:
+    try:
+        external_ip = urlopen('https://ident.me').read().decode('utf8')
+        return f"The IP address is {external_ip}"
+    except Exception:
+        logger.exception("Failed to get IP")
+        return "Failed to get IP..."
 
 def __is_windows() -> bool:
     if RPC_SERVER is None:
